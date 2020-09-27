@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import { CategoryService } from '../services/category.service';
 
 
 @Component({
@@ -9,33 +10,76 @@ import {Router} from "@angular/router";
 })
 export class CategoryComponent implements OnInit {
 
-  categories: any[];
- 
+  categories: any;
+  categoryName:string;
+  categoryModel :any;
+  submitted:boolean = false;
+  closemodeldata:string;
+  invalidCategory:boolean =false;
   
-  constructor(private router: Router) { }
+  constructor(private router: Router, private categoryService: CategoryService) { }
 
 
   ngOnInit() {
-  
+    this.categoryService.getAllCategory().subscribe(
+      res => {
+        console.log("res "+ JSON.stringify(res) );
+        this.categories = res;
+      }
+    )
   
   }
 
-  // deleteCategory(category: any): void {
-  //   this.apiService.deleteCategory(category.id)
-  //     .subscribe( data => {
-  //       this.categories = this.categories.filter(u => u !== category);
-  //     })
-  // };
+  submitCategory(){
+    console.log("categoryName" + this.categoryName)
+    this.invalidCategory = false;
+    let data ={
+      "categoryName":this.categoryName
+    }
+     if(this.categoryName != undefined && this.categoryName != "") {
+      this.categoryService.createCategory(data).subscribe(
+        res => {
+          console.log("res "+ JSON.stringify(res))
+          this.closemodeldata = "modal";
+          console.log(this.closemodeldata)
+          this.categoryService.getAllCategory().subscribe(
+            res => {
+              console.log("res "+ JSON.stringify(res) );
+              this.categories = res;
+            }
+          )
 
-  // editCategory(category: any): void {
-  //   window.localStorage.removeItem("editCategoryId");
-  //   window.localStorage.setItem("editCategoryId", category.id.toString());
-  //   this.router.navigate(['edit-editCategory']);
-  // };
+        }
+      )
+     }
+     else {
+      this.invalidCategory = true;
+     }
+   
 
-  // addCategory(): void {
-  //   this.router.navigate(['add-addCategory']);
-  // };
+  }
+
+  deleteProduct(id) {
+    console.log("delete category id = "+ id);
+    this.categoryService.deleteCategory(id).subscribe(
+      res => {
+        console.log(res)
+        this.categoryService.getAllCategory().subscribe(
+          res => {
+            console.log("res "+ JSON.stringify(res) );
+            this.categories = res;
+          })
+      }
+    )
+
+  }
+
+  editProduct(category) {
+    console.log("edit category id = "+ JSON.stringify(category));
+    this.categoryName = category.categoryName;
+
+  }
+
 }
 
 
