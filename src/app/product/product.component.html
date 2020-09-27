@@ -1,0 +1,79 @@
+<div class="col-md-6 user-container">
+    <h2 style="margin: auto"> Product Details</h2>
+    <br>
+    <button class="btn btn-danger" style="width:100px" data-toggle="modal" data-target="#exampleModal"
+        (click)="addCategory()"> Add Product</button>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>category Id</th>
+                <th>Category Name</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Product Name 1</td>
+                <td> <button class="btn btn-secondary" (click)="deleteProduct()"> Delete Product</button></td>
+                <td><button class="btn btn-primary" (click)="editProduct()"> Edit Product</button></td>
+            </tr>
+
+        </tbody>
+
+
+    </table>
+    <br>
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+       Category Details
+      </button> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    Product Name : <input type="text" name="ProductName">
+
+                    Category Name:
+                    <br>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            select category
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <br>
+                <br>
+                <br>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary">Submit</button>
+                    <!-- <button type="button" class="btn btn-primary">Edit Category</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
