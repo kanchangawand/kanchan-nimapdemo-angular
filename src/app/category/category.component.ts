@@ -11,6 +11,7 @@ import { CategoryService } from '../services/category.service';
 export class CategoryComponent implements OnInit {
 
   categories: any;
+  categoryId:any;
   categoryName:string;
   categoryModel :any;
   submitted:boolean = false;
@@ -59,7 +60,7 @@ export class CategoryComponent implements OnInit {
 
   }
 
-  deleteProduct(id) {
+  deleteCategory(id) {
     console.log("delete category id = "+ id);
     this.categoryService.deleteCategory(id).subscribe(
       res => {
@@ -74,12 +75,37 @@ export class CategoryComponent implements OnInit {
 
   }
 
-  editProduct(category) {
+  editCategory(category) {
     console.log("edit category id = "+ JSON.stringify(category));
     this.categoryName = category.categoryName;
-
+    this.categoryId = category.id;
   }
 
+
+  updateCategory() {
+    if(this.categoryName != undefined && this.categoryName != "") {
+      let data ={
+        "categoryName":this.categoryName
+      }
+      this.categoryService.updateCategory(this.categoryId,data).subscribe(
+        res => {
+          console.log("res "+ JSON.stringify(res))
+          this.closemodeldata = "modal";
+          console.log(this.closemodeldata)
+          this.categoryService.getAllCategory().subscribe(
+            res => {
+              console.log("res "+ JSON.stringify(res) );
+              this.categories = res;
+            }
+          )
+
+        }
+      )
+     }
+     else {
+      this.invalidCategory = true;
+     }
+  }
 }
 
 
