@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class CategoryService {
   url: any;
 
   constructor(private http: HttpClient) {
-    this.url = "http://localhost:3000";
+    this.url = environment.backendUrl;
   }
 
   getAllCategory(): Observable<any> {
@@ -23,5 +24,9 @@ export class CategoryService {
 
   deleteCategory(id):Observable<any> {
     return this.http.delete(this.url +  '/api/categories/deleteCategory/'+id);
+  }
+
+  updateCategory(id,data):Observable<any> {
+    return this.http.put(this.url +  '/api/categories/updateCategory/'+id,data);
   }
 }
