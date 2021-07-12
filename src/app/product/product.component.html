@@ -1,8 +1,8 @@
 <div class="col-md-6 user-container">
     <h2 style="margin: auto"> Product Details</h2>
     <br>
-    <button class="btn btn-danger" style="width:100px" data-toggle="modal" data-target="#exampleModal"
-        (click)="addCategory()"> Add Product</button>
+    <button class="btn btn-danger" style="width:100px" data-toggle="modal" data-target="#exampleModal" (click)="addproduct()"> Add
+        Product</button>
     <br>
     <table class="table table-striped">
         <thead>
@@ -15,12 +15,23 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Product Name 1</td>
-                <td> <button class="btn btn-secondary" (click)="deleteProduct()"> Delete Product</button></td>
-                <td><button class="btn btn-primary" (click)="editProduct()"> Edit Product</button></td>
+
+
+            <tr *ngFor="let product of productData | paginate : {
+                itemsPerPage: pageSize,
+                currentPage: page,
+                totalItems: count
+              };
+        let i = index">
+                <td>{{product.id}}</td>
+                <td>{{product.productName}}</td>
+                <td>{{product.categoryId}}</td>
+                <td>{{product.categoryName}}</td>
+                <td> <button class="btn btn-primary" (click)="deleteProduct(product.id)"> Delete Product</button></td>
+                <td><button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                        (click)="editProduct(product)"> Edit Product</button></td>
             </tr>
+
 
         </tbody>
 
@@ -44,36 +55,54 @@
                 </div>
                 <div class="modal-body">
 
-                    Product Name : <input type="text" name="ProductName">
-
-                    Category Name:
-                    <br>
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            select category
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
+                    <div class="form-group">
+                        <label for="Student">Product Name:</label>
+                        <input required type="text" name="ProductName"  [(ngModel)]="ProductNameModel" #ProductName="ngModel">
                     </div>
+
+
+                    <div class="form-group">
+                        <label class="col-form-label" for="Student">Category Name:</label>
+                        <div class="select-wrap">
+                            <select required class="form-control" name="categories" id="categories"
+                                [(ngModel)]="categorymodel" #categories="ngModel">
+                                <option *ngFor="let category of categoriesdata" [ngValue]="{ id: category.id, name: category.categoryName }">
+                                    {{category.categoryName}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
 
                 </div>
 
-                <br>
-                <br>
-                <br>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary">Submit</button>
+                    <button type="button"  class="btn btn-primary"  data-dismiss="modal" (click)="createProduct()">Submit</button>
                     <!-- <button type="button" class="btn btn-primary">Edit Category</button> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="mt-3">
+
+
+    Items per Page:
+    <select (change)="handlePageSizeChange($event)">
+      <option *ngFor="let size of pageSizes" [ngValue]="size">
+        {{ size }}
+      </option>
+    </select>
+  </div>
+
+<div class="col-md-12">
+    <pagination-controls
+      previousLabel="Prev"
+      nextLabel="Next"
+      responsive="true"
+      (pageChange)="handlePageChange($event)"
+    ></pagination-controls>
+  </div>
